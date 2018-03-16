@@ -6,6 +6,7 @@ namespace CheeseMVC.Data
     public class CheeseDbContext : DbContext
     {
         public DbSet<Cheese> Cheeses { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         public CheeseDbContext(DbContextOptions<CheeseDbContext> options) 
             : base(options)

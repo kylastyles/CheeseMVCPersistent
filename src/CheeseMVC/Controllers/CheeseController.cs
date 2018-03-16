@@ -9,17 +9,17 @@ namespace CheeseMVC.Controllers
 {
     public class CheeseController : Controller
     {
-        private CheeseDbContext context;
+        private CheeseDbContext cheeseContext;
 
         public CheeseController(CheeseDbContext dbContext)
         {
-            context = dbContext;
+            cheeseContext = dbContext;
         }
 
         // GET: /<controller>/
         public IActionResult Index()
         {
-            List<Cheese> cheeses = context.Cheeses.ToList();
+            List<Cheese> cheeses = cheeseContext.Cheeses.ToList();
 
             return View(cheeses);
         }
@@ -40,11 +40,11 @@ namespace CheeseMVC.Controllers
                 {
                     Name = addCheeseViewModel.Name,
                     Description = addCheeseViewModel.Description,
-                    Type = addCheeseViewModel.Type
+                    CategoryID = addCheeseViewModel.CategoryID
                 };
 
-                context.Cheeses.Add(newCheese);
-                context.SaveChanges();
+                cheeseContext.Cheeses.Add(newCheese);
+                cheeseContext.SaveChanges();
 
                 return Redirect("/Cheese");
             }
@@ -55,7 +55,7 @@ namespace CheeseMVC.Controllers
         public IActionResult Remove()
         {
             ViewBag.title = "Remove Cheeses";
-            ViewBag.cheeses = context.Cheeses.ToList();
+            ViewBag.cheeses = cheeseContext.Cheeses.ToList();
             return View();
         }
 
@@ -64,11 +64,11 @@ namespace CheeseMVC.Controllers
         {
             foreach (int cheeseId in cheeseIds)
             {
-                Cheese theCheese = context.Cheeses.Single(c => c.ID == cheeseId);
-                context.Cheeses.Remove(theCheese);
+                Cheese theCheese = cheeseContext.Cheeses.Single(c => c.ID == cheeseId);
+                cheeseContext.Cheeses.Remove(theCheese);
             }
 
-            context.SaveChanges();
+            cheeseContext.SaveChanges();
 
             return Redirect("/");
         }

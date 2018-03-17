@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using CheeseMVC.Models;
 using System.Collections.Generic;
 using CheeseMVC.ViewModels;
 using CheeseMVC.Data;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace CheeseMVC.Controllers
 {
@@ -19,14 +21,19 @@ namespace CheeseMVC.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            List<Cheese> cheeses = cheeseContext.Cheeses.ToList();
+            IList<Cheese> cheeses = cheeseContext.Cheeses.Include(c=> c.Category).ToList();
 
             return View(cheeses);
         }
 
         public IActionResult Add()
         {
+            // Create new ViewModel
             AddCheeseViewModel addCheeseViewModel = new AddCheeseViewModel();
+            // Populate Select Element with Categories
+            addCheeseViewModel.ViewModelCategories = cheeseContext.Categories
+                .Select(c => new SelectListItem() { Value = c.ID.ToString(), Text = c.Name }).ToList();
+
             return View(addCheeseViewModel);
         }
 
@@ -35,12 +42,15 @@ namespace CheeseMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Find category object
+                Category newCheeseCategory = cheeseContext.Categories.Single(c => c.ID == addCheeseViewModel.CategoryID);
+
                 // Add the new cheese to my existing cheeses
                 Cheese newCheese = new Cheese
                 {
                     Name = addCheeseViewModel.Name,
                     Description = addCheeseViewModel.Description,
-                    CategoryID = addCheeseViewModel.CategoryID
+                    CategoryID = newCheeseCategory.ID
                 };
 
                 cheeseContext.Cheeses.Add(newCheese);
@@ -54,6 +64,7 @@ namespace CheeseMVC.Controllers
 
         public IActionResult Remove()
         {
+            // TODO: Link to Remove View
             ViewBag.title = "Remove Cheeses";
             ViewBag.cheeses = cheeseContext.Cheeses.ToList();
             return View();
@@ -72,5 +83,6 @@ namespace CheeseMVC.Controllers
 
             return Redirect("/");
         }
+
     }
 }

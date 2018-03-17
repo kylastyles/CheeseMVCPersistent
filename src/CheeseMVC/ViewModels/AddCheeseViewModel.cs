@@ -18,13 +18,15 @@ namespace CheeseMVC.ViewModels
         public string Description { get; set; }
 
         [Required]
-        [Display(Name="Category")]
+        [Display(Name = "Category")]
         public int CategoryID { get; set; }
 
+        public List<SelectListItem> ViewModelCategories { get; set; }
 
-        public AddCheeseViewModel() {
-
-
+        public AddCheeseViewModel()
+        {
+            // default constructor for model binding
         }
+
     }
 }

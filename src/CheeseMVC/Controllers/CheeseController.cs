@@ -64,7 +64,6 @@ namespace CheeseMVC.Controllers
 
         public IActionResult Remove()
         {
-            // TODO: Link to Remove View
             ViewBag.title = "Remove Cheeses";
             ViewBag.cheeses = cheeseContext.Cheeses.ToList();
             return View();

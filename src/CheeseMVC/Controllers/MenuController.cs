@@ -79,16 +79,39 @@ namespace CheeseMVC.Controllers
             // Find Menu to Edit
             Menu menu = cheeseContext.Menus.Single(m => m.ID == id);
 
+            //LINES 83-102: Kyla tried to remove existing cheeses in menu from the select list of ones to add. Got an "object not set to instance" error at line 87.
+            //// All Cheeses
+            //List<Cheese> allCheeses = cheeseContext.Cheeses.ToList();
+
+            //// Find cheesemenu relationships to menu
+            //List<CheeseMenu> cheeseMenusToIgnore = cheeseContext.CheeseMenus.Where(c => c.MenuID == id).ToList();
+
+            //// Filter out cheeses already on menu
+            //List<Cheese> cheeseNotOnMenu = new List<Cheese>();
+
+            //foreach (Cheese c in allCheeses)
+            //{
+            //    if (c.CheeseMenus.Exists(cm=> cm.MenuID == menu.ID))
+            //    {
+            //        continue;
+            //    }
+            //    else
+            //    {
+            //        cheeseNotOnMenu.Add(c);
+            //    }
+            //}
+            
             // Create new ViewModel with menu and select items
             AddMenuItemViewModel addMenuItemViewModel = new AddMenuItemViewModel
             {
                 Menu = menu,
                 Cheeses = cheeseContext.Cheeses.Select(c=> new SelectListItem() { Value=c.ID.ToString(), Text = c.Name }).ToList()
+    
             };
 
             // Populate Select Element with Categories
-            //addMenuItemViewModel.Cheeses = cheeseContext.Cheeses
-            //    .Select(c => new SelectListItem() { Value = c.ID.ToString(), Text = c.Name }).ToList();
+            addMenuItemViewModel.Cheeses = cheeseContext.Cheeses
+                .Select(c => new SelectListItem() { Value = c.ID.ToString(), Text = c.Name }).ToList();
 
             return View(addMenuItemViewModel);
         }
@@ -116,7 +139,8 @@ namespace CheeseMVC.Controllers
                     return Redirect(String.Format("/Menu/ViewMenu/{0}", addMenuItemViewModel.MenuID));
                 }
             }
-            return View(addMenuItemViewModel);
+
+            return Redirect(String.Format("/Menu/ViewMenu/{0}", addMenuItemViewModel.MenuID));
         }
     }
 }

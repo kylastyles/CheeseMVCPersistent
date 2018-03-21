@@ -17,9 +17,10 @@
     </environment>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="jumbotron jumbotron-fluid"><div class="container"><br /><br /></div></div> 
+    <div class="navbar navbar-inverse navbar-fixed-top" id="fancy-font">
         <div class="container">
-            <div class="navbar-header">
+            <div class="navbar-header" id="larger">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
@@ -28,7 +29,7 @@
                 </button>
                 <a asp-area="" asp-controller="Cheese" asp-action="Index" class="navbar-brand">CheeseMVC</a>
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse" id="large">
                 <ul class="nav navbar-nav">
                     <li><a asp-controller="Cheese" asp-action="Index">Cheeses</a></li>
                     <li><a asp-controller="Category" asp-action="Index">Categories</a></li>
@@ -40,8 +41,8 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; 2017 - CheeseMVC</p>
+        <footer id="fancy-font">
+            <p>&copy; 2018 - CheeseMVC</p>
         </footer>
     </div>
 

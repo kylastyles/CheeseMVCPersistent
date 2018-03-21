@@ -83,5 +83,49 @@ namespace CheeseMVC.Controllers
             return Redirect("/");
         }
 
+        // BONUS MISSION: Add method to edit cheeses
+        public IActionResult Edit(int cheeseId)
+        {
+            //Find Cheese Object
+            Cheese cheeseToEdit = cheeseContext.Cheeses.Single(c=> c.ID == cheeseId);
+
+            // Create new ViewModel
+            EditCheeseViewModel editCheeseViewModel = new EditCheeseViewModel
+            {
+                ID = cheeseToEdit.ID,
+                Name = cheeseToEdit.Name,
+                Description = cheeseToEdit.Description,
+                CategoryID = cheeseToEdit.CategoryID
+            };
+
+            // Populate Select Element with Categories
+            editCheeseViewModel.ViewModelCategories = cheeseContext.Categories
+                .Select(c => new SelectListItem() { Value = c.ID.ToString(), Text = c.Name }).ToList();
+
+            return View(editCheeseViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(EditCheeseViewModel editCheeseViewModel)
+        {
+            if(ModelState.IsValid)
+            {
+                //Find Cheese Object
+                Cheese cheeseToEdit = cheeseContext.Cheeses.Single(c => c.ID == editCheeseViewModel.ID);
+
+                //Change Values
+                cheeseToEdit.Name = editCheeseViewModel.Name;
+                cheeseToEdit.Description = editCheeseViewModel.Description;
+                cheeseToEdit.CategoryID = editCheeseViewModel.CategoryID;
+
+                //Update Database
+                cheeseContext.Cheeses.Update(cheeseToEdit);
+                cheeseContext.SaveChanges();
+
+                return Redirect("/");
+            }
+
+            return View(editCheeseViewModel);
+        }
     }
 }

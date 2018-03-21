@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: beige;
 }
 
 /* Wrapping element */
@@ -15,6 +16,22 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+.jumbotron {
+    background: url(/images/cheese-footer.jpg);
+}
+
+#fancy-font {
+    font-family: 'Book Antiqua', serif;
+}
+
+#large {
+    font-size: large;
+}
+
+#larger {
+    font-size: larger;
 }
 
 /* Carousel */

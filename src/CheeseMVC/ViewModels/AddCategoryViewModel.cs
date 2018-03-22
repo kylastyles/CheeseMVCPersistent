@@ -8,7 +8,9 @@ namespace CheeseMVC.ViewModels
 {
     public class AddCategoryViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="Please provide a category name")]
+        [StringLength(15, ErrorMessage ="Category name must be shorter than 15 characters")]
+        [DataType(DataType.Text)]
         [Display(Name="Category Name")]
         public string Name { get; set; }
     }

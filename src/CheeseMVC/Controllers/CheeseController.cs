@@ -59,6 +59,10 @@ namespace CheeseMVC.Controllers
                 return Redirect("/Cheese");
             }
 
+            // Re-populate Select Element with Categories
+            addCheeseViewModel.ViewModelCategories = cheeseContext.Categories
+                .Select(c => new SelectListItem() { Value = c.ID.ToString(), Text = c.Name }).ToList();
+
             return View(addCheeseViewModel);
         }
 
